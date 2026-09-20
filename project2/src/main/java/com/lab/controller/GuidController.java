@@ -1,41 +1,73 @@
 package com.lab.controller;
 
-import com.lab.model.GuidResponse;
-import com.lab.service.GuidService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
-import java.util.Scanner;
+import com.lab.model.GuidResponse;
+import com.lab.service.GuidService;
+import com.lab.ui.ConsoleUI;
 
+/**
+ * Контроллер для управления выполнением лабораторной работы. Обрабатывает ввод
+ * данных и взаимодействие с сервисным слоем.
+ *
+ * @author User
+ * @version 1.0
+ */
 @Controller
 public class GuidController {
 
+    /**
+     * Сервис для проверки GUID.
+     */
     @Autowired
     private GuidService guidService;
 
-    private Scanner scanner;
+    /**
+     * UI для взаимодействия с консолью.
+     */
+    @Autowired
+    private ConsoleUI consoleUI;
 
-    public GuidController() {
-        this.scanner = new Scanner(System.in);
+    /**
+     * Выполняет задание лабораторной работы.
+     */
+    public void execute() {
+        printHeader();
+        String input = readInput();
+        GuidResponse response = guidService.validateGuid(input);
+        printResult(response);
+        consoleUI.close();
     }
 
-    public void execute() {
-        System.setOut(new java.io.PrintStream(System.out, true, java.nio.charset.StandardCharsets.UTF_8));
-        System.out.println("\n ЗАДАНИЕ 2: Проверка GUID");
-        System.out.println("Формат: 8-4-4-4-12 шестнадцатеричных цифр через тире");
-        System.out.println("Пример: 090Add98-ca30-0d00-a003-8ba0e02fd0e4");
+    /**
+     * Выводит заголовок задания.
+     */
+    private void printHeader() {
+        consoleUI.println("\nЗАДАНИЕ 2: Проверка GUID");
+        consoleUI.println("Формат: 8-4-4-4-12 шестнадцатеричных цифр через тире");
+        consoleUI.println("Пример: 090Add98-ca30-0d00-a003-8ba0e02fd0e4");
+    }
 
-        System.out.print("\nВведите строку для проверки: ");
-        String input = scanner.nextLine();
+    /**
+     * Читает строку для проверки.
+     *
+     * @return введённая строка
+     */
+    private String readInput() {
+        return consoleUI.readLine("\nВведите строку для проверки: ");
+    }
 
-        GuidResponse response = guidService.validateGuid(input);
-
-        System.out.println("\nРезультат:");
-        System.out.println(response.getMessage());
+    /**
+     * Выводит результат проверки.
+     *
+     * @param response результат проверки GUID
+     */
+    private void printResult(GuidResponse response) {
+        consoleUI.println("\nРезультат:");
+        consoleUI.println(response.getMessage());
         if (response.isValid()) {
-            System.out.println("Нормализованный GUID: " + response.getNormalizedGuid());
+            consoleUI.println("Нормализованный GUID: " + response.getNormalizedGuid());
         }
-
-        scanner.close();
     }
 }
