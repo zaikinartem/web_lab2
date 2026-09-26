@@ -1,6 +1,6 @@
 package com.lab;
 
-import com.lab.controller.GuidController;
+import com.lab.ui.ConsoleUI;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
@@ -17,12 +17,14 @@ public class Application {
 
     /**
      * Точка входа в приложение.
+     * Запускает Spring Boot, получает бин {@link ConsoleUI}
+     * и вызывает метод {@link ConsoleUI#start()}.
      *
      * @param args аргументы командной строки
      */
     public static void main(String[] args) {
         ApplicationContext context = SpringApplication.run(Application.class, args);
-        GuidController controller = context.getBean(GuidController.class);
-        controller.execute();
+        ConsoleUI consoleUI = context.getBean(ConsoleUI.class);
+        consoleUI.start();
     }
 }

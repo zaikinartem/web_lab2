@@ -1,6 +1,3 @@
 com\lab\Application.class
-com\lab\service\GuidService.class
-com\lab\model\GuidResponse.class
-com\lab\controller\GuidController.class
 com\lab\ui\ConsoleUI.class
-com\lab\service\impl\GuidServiceImpl.class
+com\lab\model\MyGuid.class
