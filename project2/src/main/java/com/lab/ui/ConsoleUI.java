@@ -93,7 +93,7 @@ public class ConsoleUI {
 
         int index = 1;
         for (MyGuid myGuid : container.getGuids()) {
-            String status = myGuid.isCorrect() ? "КОРРЕКТНЫЙ" : "НЕКОРРЕКТНЫЙ";
+            String status = myGuid.getIsCorrect() ? "КОРРЕКТНЫЙ" : "НЕКОРРЕКТНЫЙ";
 
             println(index + ". " + myGuid.getGuid() + " — " + status);
 
